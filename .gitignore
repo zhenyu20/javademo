@@ -1,0 +1,4 @@
+# Project exclude paths
+/src/main/leetcode/leetcode/editor/cn/doc/
+/src/main/leetcode/leetcode/editor/cn/doc/content/
+/target/
