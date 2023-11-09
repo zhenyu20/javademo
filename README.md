@@ -247,6 +247,131 @@ class Solution {
 
 [516. 最长回文子序列 - 力扣（LeetCode）](https://leetcode.cn/problems/longest-palindromic-subsequence/description/)
 
+## 8.图算法
+
+### ①DFS
+
+- 网格类DFS：
+
+```java
+// 方向数组，分别代表上、下、左、右
+int[][] dirs = new int[][]{{-1,0}, {1,0}, {0,-1}, {0,1}};
+
+void dfs(int[][] grid, int i, int j, boolean[] visited) {
+    int m = grid.length, n = grid[0].length;
+    if (i < 0 || j < 0 || i >= m || j >= n) {
+        // 超出索引边界
+        return;
+    }
+    if (visited[i][j]) {// 已遍历过 (i, j)
+        return;
+    }
+
+    // 进入节点 (i, j)
+    visited[i][j] = true;
+    // 递归遍历上下左右的节点
+    for (int[] d : dirs) {
+        int next_i = i + d[0];
+        int next_j = j + d[1];
+        dfs(grid, next_i, next_j);
+    }
+}
+```
+
+岛屿系列题目。
+
+- 图类DFS：
+
+```java
+Graph graph;
+boolean[] visited;
+
+void traverse(Graph graph, int s) {
+    if (visited[s]) return;
+    // 经过节点 s
+    visited[s] = true;
+    for (TreeNode neighbor : graph.neighbors(s))
+        traverse(neighbor);
+    // 离开节点 s
+    visited[s] = false;   
+}
+```
+
+与回溯差不多。
+
+### ②BFS
+
+利用队列，一般用来求最短路径/最小次数。
+
+```java 
+// 计算从起点 start 到终点 target 的最近距离
+int BFS(Node start, Node target) {
+    Queue<Node> q; // 核心数据结构
+    Set<Node> visited; // 避免走回头路
+
+    q.offer(start); // 将起点加入队列
+    visited.add(start);
+    int step = 0; // 记录扩散的步数
+
+    while (q not empty) {
+        int sz = q.size();
+        /* 将当前队列中的所有节点向四周扩散 */
+        for (int i = 0; i < sz; i++) {
+            Node cur = q.poll();
+            /* 划重点：这里判断是否到达终点 */
+            if (cur is target)
+                return step;
+            /* 将 cur 的相邻节点加入队列 */
+            for (Node x : cur.adj())
+                if (x not in visited) {
+                    q.offer(x);
+                    visited.add(x);
+                }
+        }
+        /* 划重点：更新步数在这里 */
+        step++;
+    }
+}
+```
+
+如果知道终点是什么，可以使用双向BFS进行优化。
+
+```java
+// 计算从起点 start 到终点 target 的最近距离
+int BiBFS(Node start, Node target) {
+    Set<Node> s1; // 核心数据结构
+    Set<Node> s2;
+    Set<Node> visited; // 避免走回头路
+
+    s1.add(start); // 将起点加入
+    s2.add(target); //将终点加入
+    visited.add(start);
+    int step = 0; // 记录扩散的步数
+
+    while (s1 not empty && s2 not empty) {
+        Set<Node> temp;
+        /* 将当前队列中的所有节点向四周扩散 */
+        for (Node cur : s1) {
+            /* 划重点：这里判断是否相交 */
+            if (s2 contains cur)
+                return step;
+            //如果扩散过程中添加，则两个集合永远不会相交
+            visited.add(x);
+            /* 将 cur 的相邻节点加入队列 */
+            for (Node x : cur.adj())
+                if (x not in visited) {
+                    temp.add(x);
+                }
+        }
+        /* 划重点：更新步数在这里 */
+        step++;
+        s1 = s2;
+        s2 = temp;//temp是根据s1扩散得到的，这部分相当于交换集合
+        //也可以通过比较s1s2的size选择较小的进行扩散
+    }
+}
+```
+
 # 数据结构
 
 ## 1.单调栈
@@ -256,3 +381,33 @@ class Solution {
 > 向左/右找第一个比自身大/小的数
 
 [739. 每日温度 - 力扣（LeetCode）](https://leetcode.cn/problems/daily-temperatures/description/)
+
+## 2.并查集
+
+```java
+class UnionFind{
+    private static int[] father;
+    private void init(n){
+        father = new int[n];
+        for (int i = 0; i < n; i++) {
+            father[i] = i;
+        }
+    }
+    private void union(int u,int v){
+        u = find(u);
+        v = find(v);
+        if(u == v) return;
+        father[v] = u;
+    }
+    private int find(int u){
+        return u == father[u] ? u :
+        (father[u] = find(father[u]));
+    }
+    private boolean isSame(int u,int v){
+        u = find(u);
+        v = find(v);
+        return u == v;
+    }
+}
+```
+
