@@ -1,6 +1,6 @@
 package com.azy.reflect;
 
-import com.azy.java.Person;
+import com.azy.bean.Person;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
