@@ -1,4 +1,4 @@
-package com.azy.java;
+package com.azy.bean;
 
 public enum Season {
     SPRING,

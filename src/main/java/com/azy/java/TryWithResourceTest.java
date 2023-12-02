@@ -1,4 +1,4 @@
-package com.azy.leetcode;
+package com.azy.java;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

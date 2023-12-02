@@ -1,6 +1,5 @@
-package com.azy.leetcode;
+package com.azy.java;
 
-import com.azy.java.Person;
 import org.junit.Test;
 
 import java.util.ArrayList;

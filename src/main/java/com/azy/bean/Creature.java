@@ -1,4 +1,4 @@
-package com.azy.java;
+package com.azy.bean;
 
 import java.io.Serializable;
 

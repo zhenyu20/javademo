@@ -1,11 +1,14 @@
-package com.azy.java;
+package com.azy.bean;
+
+import com.azy.java.MyAnnotation;
+import com.azy.java.MyInterface;
 
 /**
  * @author shkstart
  * @create 2019 下午 3:12
  */
 @MyAnnotation(value="hi")
-public class Person extends Creature<String> implements Comparable<String>,MyInterface{
+public class Person extends Creature<String> implements Comparable<String>, MyInterface {
 
     private String name;
     int age;
